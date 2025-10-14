@@ -12,6 +12,8 @@ public class BaseFrame extends Frame {
     public final int outerHeight;
     public final BufferedImage canvas;
 
+    private static int frameNum = 0;
+
     protected BaseFrame(String title, Point size, Point pos) {
         super(title);
 
@@ -35,6 +37,8 @@ public class BaseFrame extends Frame {
             setResizable(false);
             addWindowListener(new MyWindowAdapter());
             setVisible(true);
+
+            frameNum++;
         }
     }
 
@@ -83,7 +87,13 @@ public class BaseFrame extends Frame {
     class MyWindowAdapter extends WindowAdapter {
         @Override
         public void windowClosing(WindowEvent e) {
-            System.exit(0);
+            if (frameNum > 1) {
+                setVisible(false);
+
+                frameNum--;
+            } else {
+                System.exit(0);
+            }
         }
     }
 }
