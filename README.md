@@ -1,6 +1,6 @@
 # Pipe Sound Visualizer
 
-![スクリーンショット](./sample.png)
+![スクリーンショット](./screenshot.png)
 
 ## これは何？
 
