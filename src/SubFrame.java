@@ -15,24 +15,38 @@ public class SubFrame {
         this.main = main;
 
         Point size = new Point(main.frameWidth, main.frameHeight);
+        Point pos = new Point(main.frameX, main.frameY);
 
-        Point p00 = new Point(main.frameX, main.frameY);
-        waveViewer = new WaveViewer(size, p00, true);
+        waveViewer = new WaveViewer(size, pos, true);
 
-        Point p01 = new Point(p00.x + waveViewer.outerWidth, p00.y);
-        amplitudeViewer = new AmplitudeViewer(size, p01, true);
+        pos = setNextPosition(pos, 1, waveViewer.outerWidth, waveViewer.outerHeight);
 
-        Point p02 = new Point(p01.x + amplitudeViewer.outerWidth, p00.y);
-        waveBalanceViewer = new WaveBalanceViewer(size, p02, true);
+        amplitudeViewer = new AmplitudeViewer(size, pos, true);
 
-        Point p10 = new Point(p00.x, p00.y + waveViewer.outerHeight);
-        frequencyViewer = new FrequencyViewer(size, p10, true);
+        pos = setNextPosition(pos, 2, amplitudeViewer.outerWidth, amplitudeViewer.outerHeight);
 
-        Point p11 = new Point(p10.x + frequencyViewer.outerWidth, p10.y);
-        spectrogramViewer = new SpectrogramViewer(size, p11, true);
+        waveBalanceViewer = new WaveBalanceViewer(size, pos, true);
 
-        Point p12 = new Point(p11.x + spectrogramViewer.outerWidth, p10.y);
-        frequencyBalanceViewer = new FrequencyBalanceViewer(size, p12, true);
+        pos = setNextPosition(pos, 3, waveBalanceViewer.outerWidth, waveBalanceViewer.outerHeight);
+
+        frequencyViewer = new FrequencyViewer(size, pos, true);
+
+        pos = setNextPosition(pos, 4, frequencyViewer.outerWidth, frequencyViewer.outerHeight);
+
+        spectrogramViewer = new SpectrogramViewer(size, pos, true);
+
+        pos = setNextPosition(pos, 5, spectrogramViewer.outerWidth, spectrogramViewer.outerHeight);
+
+        frequencyBalanceViewer = new FrequencyBalanceViewer(size, pos, true);
+    }
+
+    private Point setNextPosition(
+            Point prevPos, int index, int prevFrameWidth, int prevFrameHeight) {
+        if (index % main.frameColumn != 0) {
+            return new Point(prevPos.x + prevFrameWidth, prevPos.y);
+        } else {
+            return new Point(main.frameX, prevPos.y + prevFrameHeight);
+        }
     }
 
     public void updateViewer() {

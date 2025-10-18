@@ -43,6 +43,10 @@ public class Option {
                         main.frameY = Integer.parseInt(args[++i]);
 
                         break;
+                    case "--col":
+                        main.frameColumn = Integer.parseInt(args[++i]);
+
+                        break;
                     case "--single":
                         main.useMainFrame = true;
 

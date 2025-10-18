@@ -10,6 +10,8 @@ public class MainFrame extends Frame {
     private int height;
     private int outerWidth;
     private int outerHeight;
+    private int contentWidth;
+    private int contentHeight;
 
     private Main main;
     private WaveViewer waveViewer;
@@ -29,6 +31,8 @@ public class MainFrame extends Frame {
         height = main.frameHeight;
         outerWidth = width + insets.left + insets.right;
         outerHeight = height + insets.top + insets.bottom;
+        contentWidth = width / main.frameColumn;
+        contentHeight = height / ((main.FRAME_NUM - 1) / main.frameColumn + 1);
 
         setLocation(insets.left + main.frameX, insets.top + main.frameY);
         setSize(outerWidth, outerHeight);
@@ -43,7 +47,7 @@ public class MainFrame extends Frame {
     }
 
     public void resetViewer() {
-        Point size = new Point(width / 3, height / 2);
+        Point size = new Point(contentWidth, contentHeight);
         Point pos = new Point(0, 0);
 
         waveViewer = new WaveViewer(size, pos, false);
@@ -72,12 +76,12 @@ public class MainFrame extends Frame {
 
     @Override
     public void update(Graphics g) {
-        paint(g, 0, 0, waveViewer.canvas);
-        paint(g, 0, 1, amplitudeViewer.canvas);
-        paint(g, 0, 2, waveBalanceViewer.canvas);
-        paint(g, 1, 0, frequencyViewer.canvas);
-        paint(g, 1, 1, spectrogramViewer.canvas);
-        paint(g, 1, 2, frequencyBalanceViewer.canvas);
+        paint(g, 0, waveViewer.canvas);
+        paint(g, 1, amplitudeViewer.canvas);
+        paint(g, 2, waveBalanceViewer.canvas);
+        paint(g, 3, frequencyViewer.canvas);
+        paint(g, 4, spectrogramViewer.canvas);
+        paint(g, 5, frequencyBalanceViewer.canvas);
     }
 
     @Override
@@ -88,11 +92,11 @@ public class MainFrame extends Frame {
         super.paint(g);
     }
 
-    public void paint(Graphics g, int row, int col, BufferedImage canvas) {
+    public void paint(Graphics g, int index, BufferedImage canvas) {
         if (canvas == null) return;
 
-        int x = insets.left + col * (width / 3);
-        int y = insets.top + row * (height / 2);
+        int x = insets.left + index % main.frameColumn * contentWidth;
+        int y = insets.top + index / main.frameColumn * contentHeight;
 
         g.drawImage(canvas, x, y, this);
     }
@@ -114,6 +118,8 @@ public class MainFrame extends Frame {
             outerHeight = component.getHeight();
             width = outerWidth - insets.left - insets.right;
             height = outerHeight - insets.top - insets.bottom;
+            contentWidth = width / main.frameColumn;
+            contentHeight = height / ((main.FRAME_NUM - 1) / main.frameColumn + 1);
 
             resetViewer();
             updateViewer();

@@ -7,6 +7,7 @@ import java.io.*;
 public class Main {
     public static final String TITLE = "Pipe Sound Visualizer";
     public static final String VERSION = "1.1.0 [DEV]";
+    public static final int FRAME_NUM = 6;
 
     public int freq = 48000; // DAT Standard
     public int bit = 16; // DAT Standard
@@ -17,6 +18,7 @@ public class Main {
     public int frameHeight = 400;
     public int frameX = 10;
     public int frameY = 10;
+    public int frameColumn = 3;
     public boolean useMainFrame = false;
 
     public PulseCodeModulator pcm;
